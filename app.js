@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
+app.use(express.static("public"));
 
 const userRouter = require('./routes/userRouter');
 const authRouter = require('./routes/authRouter');
