@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Bookings</title>
+  <link rel="stylesheet" href="/nav.css">
+  <link rel="stylesheet" href="/output.css">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 0;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .booking-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .booking-card {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .booking-card:hover {
+      transform: scale(1.03);
+    }
+
+    .booking-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 1rem;
+      flex-grow: 1;
+    }
+
+    .card-content h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.3rem;
+      color: #333;
+    }
+
+    .card-content p {
+      margin: 0.3rem 0;
+      color: #555;
+      font-size: 0.95rem;
+    }
+
+    .price {
+      font-weight: bold;
+      color: #FF385C;
+    }
+
+    .cancel-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 10px 0;
+      background-color: #dc3545;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 0 0 12px 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .cancel-btn:hover {
+      background-color: #c82333;
+    }
+
+    .empty-state {
+      text-align: center;
+      margin-top: 3rem;
+      font-size: 1.2rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <!-- ✅ Navbar -->
+  <%- include('../partials/navbar') %>
+
+  <header class="page-header">
+    <h1>📅 Your Bookings</h1>
+  </header>
+
+  <main>
+    <% if (!bookings || bookings.length === 0) { %>
+      <div class="empty-state">
+        <p>No bookings yet! 🚫</p>
+        <p>Once you book a home, it will appear here.</p>
+      </div>
+    <% } else { %>
+      <div class="booking-grid">
+        <% bookings.forEach(b => { %>
+          <div class="booking-card">
+            <img src="<%= b.photo %>" alt="<%= b.name %>">
+            <div class="card-content">
+              <h3><%= b.name %></h3>
+              <p class="price">₹<%= b.price %> / night</p>
+              <p>📍 <%= b.location %></p>
+              <p>👥 Guests: <%= b.guests %></p>
+              <p>📅 Check-in: <%= b.checkin %></p>
+              <p>📅 Check-out: <%= b.checkout %></p>
+              <p>🌙 Nights: <%= b.nights %></p>
+              <p><strong>💰 Total: ₹<%= b.total %></strong></p>
+              <p style="font-size:0.85rem; color:#777;">Booked on: <%= b.date %></p>
+            </div>
+            <form action="/cancel-booking/<%= b.id %>" method="POST">
+              <button type="submit" class="cancel-btn">Cancel Booking</button>
+            </form>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </main>
+</body>
+</html>

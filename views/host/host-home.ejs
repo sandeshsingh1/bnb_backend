@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Homes | Airbnb</title>
+  <link rel="stylesheet" href="/home.css">
+  <link rel="stylesheet" href="/output.css">
+  <link rel="stylesheet" href="/nav.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    .book-btn {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 6px 12px;
+      background-color: #28a745;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+
+    .book-btn:hover {
+      background-color: #218838;
+    }
+
+    /* Heart style */
+    .heart {
+      cursor: pointer;
+      font-size: 24px;
+      color: #ccc;
+      margin-left: 10px;
+      vertical-align: middle;
+      transition: color 0.2s;
+    }
+
+    .heart.favorited {
+      color: red;
+    }
+
+    li {
+      margin-bottom: 20px;
+      list-style: none;
+    }
+
+    /* Delete button style */
+    .delete-btn {
+      background-color: #dc3545;
+      /* Red background */
+      color: white;
+      /* White text */
+      border: none;
+      /* No border */
+      padding: 8px 14px;
+      /* Padding for click area */
+      border-radius: 6px;
+      /* Rounded corners */
+      cursor: pointer;
+      /* Pointer on hover */
+      font-weight: bold;
+      /* Bold text */
+      transition: all 0.2s ease;
+      /* Smooth hover transition */
+    }
+
+    .delete-btn:hover {
+      background-color: #c82333;
+      /* Darker red on hover */
+      transform: scale(1.05);
+      /* Slight zoom effect */
+    }
+    .btn-edit{
+      background-color: #007bff;
+      /* Blue background */
+      color: white;
+      /* White text */
+      border: none;
+      /* No border */
+      padding: 8px 14px;
+      /* Padding for click area */
+      border-radius: 6px;
+      /* Rounded corners */
+      cursor: pointer;
+      /* Pointer on hover */
+      font-weight: bold;
+      /* Bold text */
+      transition: all 0.2s ease;
+      /* Smooth hover transition */
+    }
+  </style>
+</head>
+
+<body>
+ <%- include('../partials/host-nav') %>
+
+<header class="page-header">
+  <h1>🏡 Host Dashboard</h1>
+</header>
+
+<section class="stats">
+  <p>📅 Total Bookings: <%= stats.totalBookings %></p>
+  <p>❤️ Total Favourites: <%= stats.totalFavourites %></p>
+  <p>💰 Estimated Earnings: ₹<%= stats.totalEarnings %></p>
+</section>
+
+<main>
+  <% if (homes.length > 0) { %>
+    <div class="home-grid">
+      <% homes.forEach(home => { %>
+        <div class="home-card">
+          <img src="<%= home.photo %>" alt="<%= home.name %>">
+          <div class="card-content">
+            <h3><%= home.name %></h3>
+            <p>📍 <%= home.location %></p>
+            <p>💰 ₹<%= home.price %> | ⭐ <%= home.rating %></p>
+            <a href="/homes/<%= home.id %>" class="btn details">Details</a>
+            <a href="/host/edit-home/<%= home.id %>" class="btn-edit">Edit</a>
+            <form action="/host/delete-home/<%= home.id %>" method="POST" style="display:inline;">
+              <button type="submit" class="btn delete">Delete</button>
+            </form>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <p>You haven't listed any homes yet.</p>
+  <% } %>
+</main>
+
+
+    <script>
+      // Toggle favourite with AJAX
+      $(document).ready(function () {
+        $('.heart').click(function () {
+          const heart = $(this);
+          const li = heart.closest('li');
+          const homeId = li.data('id');
+
+          $.post('/toggle-favourite', { id: homeId }, function (res) {
+            if (res.success) {
+              heart.toggleClass('favorited');
+            }
+          });
+        });
+      });
+    </script>
+</body>
+
+</html>

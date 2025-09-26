@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Home</title>
+  <link rel="stylesheet" href="/nav.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      text-align: center;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #FF5A5F, #FF385C);
+      color: white;
+      border-radius: 0 0 12px 12px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    main {
+      display: flex;
+      justify-content: center;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    form {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+    }
+
+    input,
+    select,
+    textarea {
+      padding: 10px 14px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: border-color 0.2s;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #FF385C;
+      outline: none;
+    }
+
+    button {
+      background: #FF385C;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+
+    button:hover {
+      background: #e03150;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body>
+  <%- include('../partials/host-nav') %> <!-- ✅ Host specific navbar -->
+
+  <header>
+    <h1>Register Your Home 🏡</h1>
+  </header>
+
+  <main>
+    <form action="/host/add-home" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label>Home Name</label>
+        <input type="text" name="name" placeholder="Enter your home name" required>
+      </div>
+
+      <div class="form-group">
+        <label>Location</label>
+        <input type="text" name="location" placeholder="Enter location" required>
+      </div>
+
+      <div class="form-group">
+        <label>Price per night</label>
+        <input type="number" name="price" placeholder="Price per night" min="0" step="100" required>
+      </div>
+
+      <div class="form-group">
+        <label>Rating</label>
+        <select name="rating" required>
+          <option value="">Select rating</option>
+          <option value="1">⭐ 1 Star</option>
+          <option value="2">⭐ 2 Stars</option>
+          <option value="3">⭐ 3 Stars</option>
+          <option value="4">⭐ 4 Stars</option>
+          <option value="5">⭐ 5 Stars</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea name="description" rows="3" placeholder="Write something about your home..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="photo">Upload Home Photo</label>
+        <input type="file" id="photo" name="photo" accept="image/*" required>
+      </div>
+
+      <button type="submit">➕ Add Home</button>
+    </form>
+  </main>
+</body>
+
+</html>

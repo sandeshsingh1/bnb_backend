@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Homes | Airbnb</title>
+  <link rel="stylesheet" href="/home.css">
+  <link rel="stylesheet" href="/output.css">
+  <link rel="stylesheet" href="/nav.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+  <!-- ✅ Navbar -->
+  <%- include('../partials/navbar') %>
+
+  <!-- ✅ Header -->
+  <header class="page-header">
+    <h1>🏠 All Homes</h1>
+  </header>
+
+  <!-- ✅ Search + Filter Form -->
+ <!-- ✅ Search + Filter Form -->
+<section class="filter-bar">
+  <form action="/" method="GET" class="filter-form">
+
+    <!-- Location Dropdown -->
+    <select name="location">
+      <option value="">All Locations</option>
+      <% 
+        const uniqueLocations = [...new Set(homearr.map(h => h.location))]; 
+        uniqueLocations.forEach(loc => { 
+      %>
+        <option value="<%= loc %>" <%= query.location === loc ? "selected" : "" %>><%= loc %></option>
+      <% }) %>
+    </select>
+
+    <!-- Min Price Slider -->
+    <label>
+      Min Price: 
+      <input type="range" name="minPrice" min="500" max="20000" step="500"
+             value="<%= query.minPrice || 500 %>"
+             oninput="this.nextElementSibling.value = this.value">
+      <output><%= query.minPrice || 500 %></output>
+    </label>
+
+    <!-- Max Price Slider -->
+    <label>
+      Max Price: 
+      <input type="range" name="maxPrice" min="500" max="20000" step="500"
+             value="<%= query.maxPrice || 20000 %>"
+             oninput="this.nextElementSibling.value = this.value">
+      <output><%= query.maxPrice || 20000 %></output>
+    </label>
+
+    <!-- Sort -->
+    <select name="sortBy">
+      <option value="">Sort By</option>
+      <option value="priceLow" <%= query.sortBy==='priceLow' ? 'selected' : '' %>>Price: Low to High</option>
+      <option value="priceHigh" <%= query.sortBy==='priceHigh' ? 'selected' : '' %>>Price: High to Low</option>
+      <option value="rating" <%= query.sortBy==='rating' ? 'selected' : '' %>>Rating</option>
+    </select>
+
+    <!-- Buttons -->
+    <button type="submit" class="btn search">🔍 Apply</button>
+    <a href="/" class="btn clear">❌ Clear</a>
+  </form>
+</section>
+
+  <!-- ✅ Home Grid -->
+  <main>
+    <% if (Array.isArray(homearr) && homearr.length > 0) { %>
+      <div class="home-grid">
+        <% homearr.forEach(home => { %>
+         <div class="home-card" data-id="<%= home.id %>">
+  <div class="image-wrapper">
+    <img src="<%= home.photo %>" alt="<%= home.name %>">
+
+    <!-- ❤️ Heart (sirf yaha, card ke andar) -->
+    <span class="heart <%= home.isFavourite ? 'favorited' : '' %>">&#10084;</span>
+
+    <!-- 📍 Location overlay -->
+    <span class="location-overlay">📍 <%= home.location %></span>
+  </div>
+
+  <div class="card-content">
+    <h3><%= home.name %></h3>
+    <p class="price">₹<%= home.price %> / night | ⭐ <%= home.rating %></p>
+    <a href="/homes/<%= home.id %>" class="btn details">Details</a>
+  </div>
+</div>
+
+        <% }) %>
+      </div>
+    <% } else { %>
+      <p style="text-align:center; margin-top:2rem;">No homes found matching your filters.</p>
+    <% } %>
+  </main>
+
+  <!-- ✅ JS for Favourites -->
+  <script>
+    $(document).ready(function () {
+      $('.heart').click(function () {
+        const heart = $(this);
+        const card = heart.closest('.home-card');
+        const homeId = card.data('id');
+
+        $.post('/toggle-favourite', { id: homeId }, function (res) {
+          if (res.success) {
+            heart.toggleClass('favorited');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

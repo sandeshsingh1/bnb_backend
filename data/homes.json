@@ -1,0 +1,56 @@
+[
+  {
+    "name": "utsav",
+    "location": "lucknow",
+    "price": 4000,
+    "rating": 3,
+    "description": "great house",
+    "photo": "/uploads/1758841726860-img1.jpg",
+    "hostId": 1758421517485,
+    "reviews": [],
+    "id": 1758841726882
+  },
+  {
+    "name": "marine",
+    "location": "Mumbai",
+    "price": 5000,
+    "rating": 5,
+    "description": "",
+    "photo": "/uploads/1758841767151-img2.jpg",
+    "hostId": 1758421517485,
+    "reviews": [],
+    "id": 1758841767161
+  },
+  {
+    "name": "juhu",
+    "location": "Mumbai",
+    "price": 4500,
+    "rating": 4,
+    "description": "great home",
+    "photo": "/uploads/1758841844118-img3.jpg",
+    "hostId": 1758421517485,
+    "reviews": [],
+    "id": 1758841844133
+  },
+  {
+    "name": "Cozy Apartment",
+    "location": "nagpur",
+    "price": 6500,
+    "rating": 5,
+    "description": "goooood to go",
+    "photo": "/uploads/1758843112738-img4.jpg",
+    "hostId": 1758421517486,
+    "reviews": [],
+    "id": 1758841932152
+  },
+  {
+    "name": "Sea Facing ",
+    "location": "Goa",
+    "price": 8000,
+    "rating": 5,
+    "description": "go goa gone",
+    "photo": "/uploads/1758843129932-img3.jpg",
+    "reviews": [],
+    "id": 1758841986553
+  }
+]

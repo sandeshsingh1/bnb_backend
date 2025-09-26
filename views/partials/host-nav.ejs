@@ -1,0 +1,17 @@
+<!-- views/partials/host_nav.ejs -->
+<nav class="navbar">
+  <div class="nav-links">
+    <a href="/">🏠 Home</a>
+    <a href="/host/host-home">🏡 Host Dashboard</a>
+    <a href="/host/add-home">➕ Add Home</a>   <!-- ✅ Add Home link -->
+
+    <% if (!currentUser) { %>
+      <!-- Show when NOT logged in -->
+      <a href="/login">🔑 Login</a>
+    <% } else { %>
+      <!-- Show when logged in -->
+      <span style="margin-right:10px;">👋 Hi, <%= currentUser %></span>
+      <a href="/logout">🚪 Logout</a>
+    <% } %>
+  </div>
+</nav>

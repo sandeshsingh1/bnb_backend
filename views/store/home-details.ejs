@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home Details</title>
+  <!-- ✅ Navbar CSS include -->
+  <link rel="stylesheet" href="/nav.css">
+  <link rel="stylesheet" href="/output.css">
+
+  <style>
+    .details-page {
+      display: flex;
+      justify-content: center;
+      padding: 2rem;
+      background: #f7f7f7;
+    }
+    .details-card {
+      background: #fff;
+      border-radius: 12px;
+      max-width: 800px;
+      width: 100%;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding-bottom: 1.5rem;
+    }
+    .details-card img {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+    }
+    .details-info {
+      padding: 1.5rem 2rem;
+    }
+    .details-title {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+    .details-info p {
+      margin: 0.6rem 0;
+      font-size: 1.1rem;
+      color: #444;
+    }
+    .amenities h3 {
+      margin-top: 1rem;
+      color: #FF385C;
+    }
+    .amenities ul {
+      list-style: disc;
+      padding-left: 20px;
+    }
+
+    /* Booking Form */
+    .booking-form {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #fafafa;
+      border-radius: 8px;
+      border: 1px solid #eee;
+    }
+    .booking-form label {
+      display: block;
+      margin-top: 0.6rem;
+      font-weight: bold;
+      color: #333;
+    }
+    .booking-form input {
+      width: 100%;
+      padding: 8px 10px;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .btn {
+      display: inline-block;
+      margin: 10px 8px 0 0;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      font-size: 15px;
+      transition: all 0.2s;
+    }
+    .btn.book {
+      background: #FF385C;
+      color: #fff;
+    }
+    .btn.book:hover {
+      background: #e03150;
+      transform: scale(1.05);
+    }
+    .btn.back {
+      background: #555;
+      color: #fff;
+    }
+    .btn.back:hover {
+      background: #333;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <!-- ✅ Navbar include -->
+  <%- include('../partials/navbar') %>
+
+<div class="details-page">
+  <div class="details-card">
+    <img src="<%= home.photo %>" alt="<%= home.name %>" class="details-img">
+
+    <div class="details-info">
+      <h1 class="details-title"><%= home.name %></h1>
+
+      <p>📍 <strong>Location:</strong> <%= home.location %></p>
+      <p>💰 <strong>Price:</strong> ₹<%= home.price %> / night</p>
+      <p>⭐ <strong>Rating:</strong> <%= home.rating %> / 5</p>
+      <p>📝 <strong>Description:</strong> <%= home.description || "No description available." %></p>
+
+      <div class="amenities">
+        <h3>✅ Amenities</h3>
+        <ul>
+          <li>Free WiFi</li>
+          <li>Air Conditioning</li>
+          <li>Parking</li>
+          <li>Swimming Pool</li>
+        </ul>
+      </div>
+      <div class="reviews">
+  <h3>📝 Reviews</h3>
+  <% if (home.reviews && home.reviews.length > 0) { %>
+    <ul>
+      <% home.reviews.forEach(r => { %>
+        <li>
+          <strong><%= r.username %></strong> ⭐ <%= r.rating %>/5 <br>
+          <%= r.comment %> <br>
+          <small><%= r.date %></small>
+        </li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p>No reviews yet. Be the first!</p>
+  <% } %>
+</div>
+
+<!-- Add Review Form -->
+<form action="/homes/<%= home.id %>/review" method="POST" class="review-form">
+  <label>Rating:</label>
+  <select name="rating" required>
+    <option value="1">⭐ 1</option>
+    <option value="2">⭐ 2</option>
+    <option value="3">⭐ 3</option>
+    <option value="4">⭐ 4</option>
+    <option value="5">⭐ 5</option>
+  </select>
+
+  <label>Comment:</label>
+  <textarea name="comment" rows="3" required></textarea>
+
+  <button type="submit" class="btn book">Submit Review</button>
+</form>
+
+      <!-- ✅ Booking Form -->
+      <!-- Buttons -->
+<form action="/book/<%= home.id %>" method="POST" class="booking-form">
+  <label>👥 Guests:</label>
+  <input type="number" name="guests" value="1" min="1" required>
+
+  <label>📅 Check-in:</label>
+  <input type="date" name="checkin" required>
+
+  <label>📅 Check-out:</label>
+  <input type="date" name="checkout" required>
+
+  <button type="submit" class="btn book">Book Now</button>
+</form>
+
+<a href="/" class="btn back">⬅ Back</a>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

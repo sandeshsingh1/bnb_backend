@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Home</title>
+  <link rel="stylesheet" href="/nav.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      text-align: center;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #FF5A5F, #FF385C);
+      color: white;
+      border-radius: 0 0 12px 12px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    main {
+      display: flex;
+      justify-content: center;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    form {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+    }
+
+    input,
+    select,
+    textarea {
+      padding: 10px 14px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: border-color 0.2s;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #FF385C;
+      outline: none;
+    }
+
+    button {
+      background: #FF385C;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+
+    button:hover {
+      background: #e03150;
+      transform: scale(1.05);
+    }
+
+    .current-photo {
+      margin-top: 10px;
+    }
+
+    .current-photo img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <%- include('../partials/host-nav') %> <!-- ✅ Host specific navbar -->
+
+  <header>
+    <h1>Edit Home 🏡</h1>
+  </header>
+
+  <main>
+    <form action="/host/edit-home/<%= home.id %>" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label>Home Name</label>
+        <input type="text" name="name" value="<%= home.name %>" required>
+      </div>
+
+      <div class="form-group">
+        <label>Location</label>
+        <input type="text" name="location" value="<%= home.location %>" required>
+      </div>
+
+      <div class="form-group">
+        <label>Price per night</label>
+        <input type="number" name="price" value="<%= home.price %>" min="0" step="100" required>
+      </div>
+
+      <div class="form-group">
+        <label>Rating</label>
+        <select name="rating" required>
+          <option value="">Select rating</option>
+          <option value="1" <%= home.rating==1 ? 'selected' : '' %>>⭐ 1 Star</option>
+          <option value="2" <%= home.rating==2 ? 'selected' : '' %>>⭐ 2 Stars</option>
+          <option value="3" <%= home.rating==3 ? 'selected' : '' %>>⭐ 3 Stars</option>
+          <option value="4" <%= home.rating==4 ? 'selected' : '' %>>⭐ 4 Stars</option>
+          <option value="5" <%= home.rating==5 ? 'selected' : '' %>>⭐ 5 Stars</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea name="description" rows="3"><%= home.description %></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="photo">Update Home Photo (optional)</label>
+        <input type="file" id="photo" name="photo" accept="image/*">
+        <% if (home.photo) { %>
+          <div class="current-photo">
+            <p>Current Photo:</p>
+            <img src="<%= home.photo %>" alt="<%= home.name %>">
+          </div>
+        <% } %>
+      </div>
+
+      <button type="submit">💾 Save Changes</button>
+    </form>
+  </main>
+</body>
+
+</html>
